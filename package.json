@@ -9,13 +9,79 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "workspaceContains:**/**.json",
+		"workspaceContains:**/**.yml",
+		"workspaceContains:**/**.yaml",
+		"onCommand:extension.rightClickJson",
+		"onCommand:extension.rightClickYaml",
+    "onLanguage:json",
+		"onLanguage:yaml"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "vscode-change-naming-convention.helloWorld",
-        "title": "Hello World"
+				"command": "extension.rightClickJsonCamel",
+				"title": "Convert to camelCase",
+				"enablement": "resourceExtname == .json"
+			},
+      {
+				"command": "extension.rightClickJsonPascal",
+				"title": "Convert to PascalCase",
+				"enablement": "resourceExtname == .json"
+			},
+			{
+				"command": "extension.rightClickYamlCamel",
+				"title": "Convert to camelCase",
+				"enablement": "resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "extension.rightClickYamlPascal",
+				"title": "Convert to PascalCase",
+				"enablement": "resourceExtname == .yml || resourceExtname == .yaml"
+			}
+    ]
+  },
+  "menus": {
+    "commandPalette": [
+      {
+        "command": "extension.rightClickJsonCamel",
+        "when": "resourceExtname == .json"
+      },
+      {
+        "command": "extension.rightClickJsonPascal",
+        "when": "resourceExtname == .json"
+      },
+      {
+        "command": "extension.rightClickYamlCamel",
+        "when": "resourceExtname == .yml || resourceExtname == .yaml"
+      },
+      {
+        "command": "extension.rightClickYamlPascal",
+        "when": "resourceExtname == .yml || resourceExtname == .yaml"
+      }
+    ],
+    "explorer/context": [
+      {
+        "group": "1_modification",
+        "command": "extension.rightClickJsonCamel",
+        "when": "resourceExtname == .json"
+      },
+      {
+        "group": "1_modification",
+        "command": "extension.rightClickJsonPascal",
+        "when": "resourceExtname == .json"
+      },
+      {
+        "group": "1_modification",
+        "command": "extension.rightClickYamlCamel",
+        "when": "resourceExtname == .yml || resourceExtname == .yaml"
+      },
+      {
+        "group": "1_modification",
+        "command": "extension.rightClickYamlPascal",
+        "when": "resourceExtname == .yml || resourceExtname == .yaml"
       }
     ]
   },

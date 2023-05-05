@@ -11,69 +11,67 @@ export function showError(error: any) {
 }
 
 export function getCamelFromJson(json: string): string {
-	const indent = getConfig<Configs['YamlIndent']>(ConfigId.YamlIndent);
-	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
-	
-	try {
-		const jsonObject = JSON.parse(json);
-		
-		return YAML.stringify(jsonObject, {
-			...(indent && { indent }),
-			...(schema && { schema }),
-			merge: true
-		});
+    try {
+        let regex =  '"([^"]+?)"\s*:';
+        
+        var newContent = json.replace(new RegExp(regex, 'g'), camelReplace);
+
+        return newContent;
 	} catch (error) {
 		console.error(error);
 		throw new Error('Failed to parse YAML. Please make sure it has a valid format and try again.');
 	}
 }
 
-export function getCamelFromYaml(yaml: string): string {
-	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
-	
+export function getCamelFromYaml(yaml: string): string {	
 	try {
-		const json = YAML.parse(yaml, {
-			merge: true,
-			...(schema && { schema })
-		});
+        let regex =  '\s*-?\s?([^:]+?)\s*:';
+        
+        var newContent = yaml.replace(new RegExp(regex, 'g'), camelReplace);
 
-		return JSON.stringify(json, undefined, 2);
+        return newContent;
 	} catch (error) {
 		console.error(error);
 		throw new Error('Failed to parse JSON. Please make sure it has a valid format and try again.');
 	}
 }
 
-export function getPascalFromJson(json: string): string {
-	const indent = getConfig<Configs['YamlIndent']>(ConfigId.YamlIndent);
-	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
-	
+export function getPascalFromJson(json: string): string {	
 	try {
-		const jsonObject = JSON.parse(json);
-		
-		return YAML.stringify(jsonObject, {
-			...(indent && { indent }),
-			...(schema && { schema }),
-			merge: true
-		});
+        let regex =  '"([^"]+?)"\s*:';
+        
+        var newContent = json.replace(new RegExp(regex, 'g'), pascalReplace);
+
+        return newContent;
 	} catch (error) {
 		console.error(error);
 		throw new Error('Failed to parse YAML. Please make sure it has a valid format and try again.');
 	}
 }
 
-export function getPascalFromYaml(yaml: string): string {
-	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
-	
+export function getPascalFromYaml(yaml: string): string {	
 	try {
-		const json = YAML.parse(yaml, {
-			merge: true,
-			...(schema && { schema })
-		});
+        let regex =  '\s*-?\s?([^:]+?)\s*:';
+        
+        var newContent = yaml.replace(new RegExp(regex, 'g'), pascalReplace);
 
-		return JSON.stringify(json, undefined, 2);
+        return newContent;
 	} catch (error) {
 		console.error(error);
 		throw new Error('Failed to parse JSON. Please make sure it has a valid format and try again.');
 	}
+}
+
+function camelReplace(match: string){
+    if(match.length > 0){
+        match = match[0].toLowerCase() + match.slice(1);
+    }
+    return match;
+}
+
+function pascalReplace(match: string){
+    if(match.length > 0){
+        match = match[0].toUpperCase() + match.slice(1);
+    }
+    return match;
 }
