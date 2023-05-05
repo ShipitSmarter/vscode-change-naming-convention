@@ -1,0 +1,79 @@
+import * as vscode from 'vscode';
+import * as YAML from 'yaml';
+
+const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please check your file';
+
+export function showError(error: any) {
+	console.error(error);
+
+	const message = error.message || DEFAULT_ERROR_MESSAGE;
+	vscode.window.showErrorMessage(message);
+}
+
+export function getCamelFromJson(json: string): string {
+	const indent = getConfig<Configs['YamlIndent']>(ConfigId.YamlIndent);
+	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
+	
+	try {
+		const jsonObject = JSON.parse(json);
+		
+		return YAML.stringify(jsonObject, {
+			...(indent && { indent }),
+			...(schema && { schema }),
+			merge: true
+		});
+	} catch (error) {
+		console.error(error);
+		throw new Error('Failed to parse YAML. Please make sure it has a valid format and try again.');
+	}
+}
+
+export function getCamelFromYaml(yaml: string): string {
+	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
+	
+	try {
+		const json = YAML.parse(yaml, {
+			merge: true,
+			...(schema && { schema })
+		});
+
+		return JSON.stringify(json, undefined, 2);
+	} catch (error) {
+		console.error(error);
+		throw new Error('Failed to parse JSON. Please make sure it has a valid format and try again.');
+	}
+}
+
+export function getPascalFromJson(json: string): string {
+	const indent = getConfig<Configs['YamlIndent']>(ConfigId.YamlIndent);
+	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
+	
+	try {
+		const jsonObject = JSON.parse(json);
+		
+		return YAML.stringify(jsonObject, {
+			...(indent && { indent }),
+			...(schema && { schema }),
+			merge: true
+		});
+	} catch (error) {
+		console.error(error);
+		throw new Error('Failed to parse YAML. Please make sure it has a valid format and try again.');
+	}
+}
+
+export function getPascalFromYaml(yaml: string): string {
+	const schema = getConfig<Configs['YamlSchema']>(ConfigId.YamlSchema);
+	
+	try {
+		const json = YAML.parse(yaml, {
+			merge: true,
+			...(schema && { schema })
+		});
+
+		return JSON.stringify(json, undefined, 2);
+	} catch (error) {
+		console.error(error);
+		throw new Error('Failed to parse JSON. Please make sure it has a valid format and try again.');
+	}
+}
