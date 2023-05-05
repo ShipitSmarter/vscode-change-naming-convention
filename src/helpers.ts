@@ -25,9 +25,17 @@ export function getCamelFromJson(json: string): string {
 
 export function getCamelFromYaml(yaml: string): string {	
 	try {
-        let regex =  '\s*-?\s?([^:]+?)\s*:';
-        
-        var newContent = yaml.replace(new RegExp(regex, 'g'), camelReplace);
+        const yamlContent = YAML.parse(yaml, {
+            merge: true,
+            schema: 'core'
+        });
+
+        let newYaml = changeCaseOfKeysToCamel(yamlContent);
+
+        var newContent = YAML.stringify(newYaml, {
+            merge: true,
+            schema: 'core'
+        });
 
         return newContent;
 	} catch (error) {
@@ -51,9 +59,17 @@ export function getPascalFromJson(json: string): string {
 
 export function getPascalFromYaml(yaml: string): string {	
 	try {
-        let regex =  '\s*-?\s?([^:]+?)\s*:';
-        
-        var newContent = yaml.replace(new RegExp(regex, 'g'), pascalReplace);
+        const yamlContent = YAML.parse(yaml, {
+            merge: true,
+            schema: 'core'
+        });
+
+        let newYaml = changeCaseOfKeysToPascal(yamlContent);
+
+        var newContent = YAML.stringify(newYaml, {
+            merge: true,
+            schema: 'core'
+        });
 
         return newContent;
 	} catch (error) {
@@ -62,7 +78,38 @@ export function getPascalFromYaml(yaml: string): string {
 	}
 }
 
+function changeCaseOfKeysToPascal(oIn: any): any {
+    let objectKeysToPascal = function (origObj: object) {
+        return Object.keys(origObj).reduce(function (newObj, key) {
+            // @ts-ignore
+            let val = origObj[key];
+            let newVal = (typeof val === 'object') ? objectKeysToPascal(val) : val;
+            // @ts-ignore
+            newObj[key[0].toUpperCase() + key.slice(1)] = newVal;
+            return newObj;
+        }, {});
+    };
+
+    return objectKeysToPascal(oIn);
+}
+
+function changeCaseOfKeysToCamel(oIn: any): any {
+    let objectKeysToCamel = function (origObj: object) {
+        return Object.keys(origObj).reduce(function (newObj, key) {
+            // @ts-ignore
+            let val = origObj[key];
+            let newVal = (typeof val === 'object') ? objectKeysToCamel(val) : val;
+            // @ts-ignore
+            newObj[key[0].toLowerCase() + key.slice(1)] = newVal;
+            return newObj;
+        }, {});
+    };
+
+    return objectKeysToCamel(oIn);
+}
+
 function camelReplace(match: string, group: string){
+    group = group.replace('\n', '');
     let newText = group;
     if(group.length > 0){
         newText = group[0].toLowerCase() + group.slice(1);
@@ -74,6 +121,7 @@ function camelReplace(match: string, group: string){
 }
 
 function pascalReplace(match: string, group: string){
+    group = group.replace('\n', '');
     let newText = group;
     if(group.length > 0){
         newText = group[0].toUpperCase() + group.slice(1);
