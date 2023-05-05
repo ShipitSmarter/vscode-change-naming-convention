@@ -62,16 +62,24 @@ export function getPascalFromYaml(yaml: string): string {
 	}
 }
 
-function camelReplace(match: string){
-    if(match.length > 0){
-        match = match[0].toLowerCase() + match.slice(1);
+function camelReplace(match: string, group: string){
+    let newText = group;
+    if(group.length > 0){
+        newText = group[0].toLowerCase() + group.slice(1);
     }
+
+    match = match.replace(group, newText);
+
     return match;
 }
 
-function pascalReplace(match: string){
-    if(match.length > 0){
-        match = match[0].toUpperCase() + match.slice(1);
+function pascalReplace(match: string, group: string){
+    let newText = group;
+    if(group.length > 0){
+        newText = group[0].toUpperCase() + group.slice(1);
     }
+
+    match = match.replace(group, newText);
+
     return match;
 }

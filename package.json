@@ -13,8 +13,8 @@
     "workspaceContains:**/**.json",
 		"workspaceContains:**/**.yml",
 		"workspaceContains:**/**.yaml",
-		"onCommand:extension.rightClickJson",
-		"onCommand:extension.rightClickYaml",
+		"onCommand:vscode-change-naming-convention.rightClickJsonCamel",
+		"onCommand:vscode-change-naming-convention.rightClickYamlPascal",
     "onLanguage:json",
 		"onLanguage:yaml"
   ],
@@ -22,65 +22,71 @@
   "contributes": {
     "commands": [
       {
-				"command": "extension.rightClickJsonCamel",
+				"command": "vscode-change-naming-convention.rightClickJsonCamel",
 				"title": "Convert to camelCase",
 				"enablement": "resourceExtname == .json"
 			},
       {
-				"command": "extension.rightClickJsonPascal",
+				"command": "vscode-change-naming-convention.rightClickJsonPascal",
 				"title": "Convert to PascalCase",
 				"enablement": "resourceExtname == .json"
 			},
-			{
-				"command": "extension.rightClickYamlCamel",
+      {
+				"command": "vscode-change-naming-convention.rightClickYamlPascal",
+				"title": "Convert to PascalCase",
+				"enablement": "resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "vscode-change-naming-convention.rightClickYamlCamel",
 				"title": "Convert to camelCase",
 				"enablement": "resourceExtname == .yml || resourceExtname == .yaml"
 			},
       {
-				"command": "extension.rightClickYamlPascal",
-				"title": "Convert to PascalCase",
-				"enablement": "resourceExtname == .yml || resourceExtname == .yaml"
-			}
+        "command": "vscode-change-naming-convention.helloWorld",
+        "title": "Hello World"
+      }
     ]
   },
   "menus": {
     "commandPalette": [
       {
-        "command": "extension.rightClickJsonCamel",
+        "command": "vscode-change-naming-convention.rightClickJsonCamel",
         "when": "resourceExtname == .json"
       },
       {
-        "command": "extension.rightClickJsonPascal",
-        "when": "resourceExtname == .json"
-      },
-      {
-        "command": "extension.rightClickYamlCamel",
+        "command": "vscode-change-naming-convention.rightClickYamlPascal",
         "when": "resourceExtname == .yml || resourceExtname == .yaml"
       },
       {
-        "command": "extension.rightClickYamlPascal",
+        "command": "vscode-change-naming-convention.rightClickJsonPascal",
+        "when": "resourceExtname == .json"
+      },
+      {
+        "command": "vscode-change-naming-convention.rightClickYamlCamel",
         "when": "resourceExtname == .yml || resourceExtname == .yaml"
       }
     ],
     "explorer/context": [
       {
-        "group": "1_modification",
-        "command": "extension.rightClickJsonCamel",
+        "group": "2_changecase",
+        "command": "vscode-change-naming-convention.rightClickJsonCamel",
         "when": "resourceExtname == .json"
       },
+    
       {
-        "group": "1_modification",
-        "command": "extension.rightClickJsonPascal",
-        "when": "resourceExtname == .json"
-      },
-      {
-        "group": "1_modification",
-        "command": "extension.rightClickYamlCamel",
+        "group": "2_changecase",
+        "command": "vscode-change-naming-convention.rightClickYamlPascal",
         "when": "resourceExtname == .yml || resourceExtname == .yaml"
       },
       {
-        "group": "1_modification",
-        "command": "extension.rightClickYamlPascal",
+        "group": "2_changecase",
+        "command": "vscode-change-naming-convention.rightClickJsonPascal",
+        "when": "resourceExtname == .json"
+      },
+    
+      {
+        "group": "2_changecase",
+        "command": "vscode-change-naming-convention.rightClickYamlCamel",
         "when": "resourceExtname == .yml || resourceExtname == .yaml"
       }
     ]

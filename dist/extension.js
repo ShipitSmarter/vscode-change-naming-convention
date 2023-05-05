@@ -115,16 +115,20 @@ function getPascalFromYaml(yaml) {
     }
 }
 exports.getPascalFromYaml = getPascalFromYaml;
-function camelReplace(match) {
-    if (match.length > 0) {
-        match = match[0].toLowerCase() + match.slice(1);
+function camelReplace(match, group) {
+    let newText = group;
+    if (group.length > 0) {
+        newText = group[0].toLowerCase() + group.slice(1);
     }
+    match = match.replace(group, newText);
     return match;
 }
-function pascalReplace(match) {
-    if (match.length > 0) {
-        match = match[0].toUpperCase() + match.slice(1);
+function pascalReplace(match, group) {
+    let newText = group;
+    if (group.length > 0) {
+        newText = group[0].toUpperCase() + group.slice(1);
     }
+    match = match.replace(group, newText);
     return match;
 }
 
@@ -239,17 +243,20 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.deactivate = exports.activate = void 0;
+exports.activate = void 0;
 const vscode = __webpack_require__(1);
 const onRightClickAndConvertFile_1 = __webpack_require__(2);
 const { registerCommand } = vscode.commands;
 function activate(context) {
-    context.subscriptions.push(registerCommand('extension.rightClickJsonCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel), registerCommand('extension.rightClickJsonPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal), registerCommand('extension.rightClickYamlPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal), registerCommand('extension.rightClickYamlCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel));
+    context.subscriptions.push(registerCommand('vscode-change-naming-convention.rightClickJsonCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel), registerCommand('vscode-change-naming-convention.rightClickJsonPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal), registerCommand('vscode-change-naming-convention.rightClickYamlPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal), registerCommand('vscode-change-naming-convention.rightClickYamlCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel));
+    let disposable = vscode.commands.registerCommand('vscode-change-naming-convention.helloWorld', () => {
+        // The code you place here will be executed every time your command is executed
+        // Display a message box to the user
+        vscode.window.showInformationMessage('Hello World from Change Naming Convention!');
+    });
+    context.subscriptions.push(disposable);
 }
 exports.activate = activate;
-// This method is called when your extension is deactivated
-function deactivate() { }
-exports.deactivate = deactivate;
 
 })();
 
