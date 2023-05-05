@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as YAML from 'yaml';
+import { ConvertToType } from './converter';
 
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please check your file';
 
@@ -10,11 +11,15 @@ export function showError(error: any) {
 	vscode.window.showErrorMessage(message);
 }
 
-export function getCamelFromJson(json: string): string {
+export function convertFromJson(json: string, toCase: ConvertToType): string {
     try {
-        let regex =  '"([^"]+?)"\s*:';
-        
-        var newContent = json.replace(new RegExp(regex, 'g'), camelReplace);
+        const jsonContent = JSON.parse(json);
+
+        let func = toCase === ConvertToType.Camel ? changeCaseOfKeysToCamel : changeCaseOfKeysToPascal;
+
+        let newJson = func(jsonContent);
+
+        var newContent = JSON.stringify(newJson, null, 4);
 
         return newContent;
 	} catch (error) {
@@ -23,48 +28,16 @@ export function getCamelFromJson(json: string): string {
 	}
 }
 
-export function getCamelFromYaml(yaml: string): string {	
+export function convertFromYaml(yaml: string, toCase: ConvertToType): string {	
 	try {
         const yamlContent = YAML.parse(yaml, {
             merge: true,
             schema: 'core'
         });
 
-        let newYaml = changeCaseOfKeysToCamel(yamlContent);
+        let func = toCase === ConvertToType.Camel ? changeCaseOfKeysToCamel : changeCaseOfKeysToPascal;
 
-        var newContent = YAML.stringify(newYaml, {
-            merge: true,
-            schema: 'core'
-        });
-
-        return newContent;
-	} catch (error) {
-		console.error(error);
-		throw new Error('Failed to parse JSON. Please make sure it has a valid format and try again.');
-	}
-}
-
-export function getPascalFromJson(json: string): string {	
-	try {
-        let regex =  '"([^"]+?)"\s*:';
-        
-        var newContent = json.replace(new RegExp(regex, 'g'), pascalReplace);
-
-        return newContent;
-	} catch (error) {
-		console.error(error);
-		throw new Error('Failed to parse YAML. Please make sure it has a valid format and try again.');
-	}
-}
-
-export function getPascalFromYaml(yaml: string): string {	
-	try {
-        const yamlContent = YAML.parse(yaml, {
-            merge: true,
-            schema: 'core'
-        });
-
-        let newYaml = changeCaseOfKeysToPascal(yamlContent);
+        let newYaml = func(yamlContent);
 
         var newContent = YAML.stringify(newYaml, {
             merge: true,
@@ -118,28 +91,4 @@ function changeCaseOfKeysToCamel(oIn: any): any {
     };
 
     return objectKeysToCamel(oIn);
-}
-
-function camelReplace(match: string, group: string){
-    group = group.replace('\n', '');
-    let newText = group;
-    if(group.length > 0){
-        newText = group[0].toLowerCase() + group.slice(1);
-    }
-
-    match = match.replace(group, newText);
-
-    return match;
-}
-
-function pascalReplace(match: string, group: string){
-    group = group.replace('\n', '');
-    let newText = group;
-    if(group.length > 0){
-        newText = group[0].toUpperCase() + group.slice(1);
-    }
-
-    match = match.replace(group, newText);
-
-    return match;
 }

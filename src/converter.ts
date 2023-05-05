@@ -2,7 +2,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-import { showError, getCamelFromJson, getCamelFromYaml, getPascalFromJson, getPascalFromYaml  } from './helpers';
+import { showError, convertFromJson, convertFromYaml  } from './helpers';
 
 type ConvertedFile = {
 	fileUri: vscode.Uri
@@ -42,7 +42,6 @@ export class FileConverter {
 
         if(oldFileExtension === '.json' || oldFileExtension === '.jsn') { fileType = FileType.Json; }
 
-
 		const fileContent = FileConverter.getNewFileContent(this.convertToType, fileType, oldFileContent.toString());
 
 		await this.convertFile({ fileContent, fileUri });
@@ -71,10 +70,10 @@ export class FileConverter {
 
 	private static getNewFileContent(convertToType: ConvertToType, type: FileType, oldContent: string) {
 		const converter = {
-			[FileType.Json]: {[ConvertToType.Camel]: getCamelFromJson, [ConvertToType.Pascal]: getPascalFromJson},
-			[FileType.Yaml]: {[ConvertToType.Camel]: getCamelFromYaml, [ConvertToType.Pascal]: getPascalFromYaml},
-		}[type][convertToType];
+			[FileType.Json]: convertFromJson,
+			[FileType.Yaml]: convertFromYaml,
+		}[type];
 
-		return converter(oldContent);
+		return converter(oldContent, convertToType);
 	}
 }

@@ -13,9 +13,8 @@ module.exports = require("vscode");
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.convertFile = exports.onRightClickAndConvertToPascal = exports.onRightClickAndConvertToCamel = void 0;
+exports.onRightClickAndConvertToPascal = exports.onRightClickAndConvertToCamel = void 0;
 const vscode = __webpack_require__(1);
-const helpers_1 = __webpack_require__(3);
 const converter_1 = __webpack_require__(74);
 const camelCaseFileConverter = new converter_1.FileConverter(converter_1.ConvertToType.Camel);
 const pascalCaseFileConverter = new converter_1.FileConverter(converter_1.ConvertToType.Pascal);
@@ -33,16 +32,6 @@ async function onRightClickAndConvertToPascal(oldUri) {
     await pascalCaseFileConverter.convertFiles([oldUri]);
 }
 exports.onRightClickAndConvertToPascal = onRightClickAndConvertToPascal;
-async function convertFile(oldUri, newUri, newText) {
-    try {
-        await vscode.workspace.fs.writeFile(oldUri, Buffer.from(newText));
-        await vscode.workspace.fs.rename(oldUri, newUri);
-    }
-    catch (error) {
-        (0, helpers_1.showError)(error);
-    }
-}
-exports.convertFile = convertFile;
 function getActiveTextEditorUri() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -58,9 +47,10 @@ function getActiveTextEditorUri() {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getPascalFromYaml = exports.getPascalFromJson = exports.getCamelFromYaml = exports.getCamelFromJson = exports.showError = void 0;
+exports.convertFromYaml = exports.convertFromJson = exports.showError = void 0;
 const vscode = __webpack_require__(1);
 const YAML = __webpack_require__(4);
+const converter_1 = __webpack_require__(74);
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong, please check your file';
 function showError(error) {
     console.error(error);
@@ -68,10 +58,12 @@ function showError(error) {
     vscode.window.showErrorMessage(message);
 }
 exports.showError = showError;
-function getCamelFromJson(json) {
+function convertFromJson(json, toCase) {
     try {
-        let regex = '"([^"]+?)"\s*:';
-        var newContent = json.replace(new RegExp(regex, 'g'), camelReplace);
+        const jsonContent = JSON.parse(json);
+        let func = toCase === converter_1.ConvertToType.Camel ? changeCaseOfKeysToCamel : changeCaseOfKeysToPascal;
+        let newJson = func(jsonContent);
+        var newContent = JSON.stringify(newJson, null, 4);
         return newContent;
     }
     catch (error) {
@@ -79,14 +71,15 @@ function getCamelFromJson(json) {
         throw new Error('Failed to parse YAML. Please make sure it has a valid format and try again.');
     }
 }
-exports.getCamelFromJson = getCamelFromJson;
-function getCamelFromYaml(yaml) {
+exports.convertFromJson = convertFromJson;
+function convertFromYaml(yaml, toCase) {
     try {
         const yamlContent = YAML.parse(yaml, {
             merge: true,
             schema: 'core'
         });
-        let newYaml = changeCaseOfKeysToCamel(yamlContent);
+        let func = toCase === converter_1.ConvertToType.Camel ? changeCaseOfKeysToCamel : changeCaseOfKeysToPascal;
+        let newYaml = func(yamlContent);
         var newContent = YAML.stringify(newYaml, {
             merge: true,
             schema: 'core'
@@ -98,38 +91,7 @@ function getCamelFromYaml(yaml) {
         throw new Error('Failed to parse JSON. Please make sure it has a valid format and try again.');
     }
 }
-exports.getCamelFromYaml = getCamelFromYaml;
-function getPascalFromJson(json) {
-    try {
-        let regex = '"([^"]+?)"\s*:';
-        var newContent = json.replace(new RegExp(regex, 'g'), pascalReplace);
-        return newContent;
-    }
-    catch (error) {
-        console.error(error);
-        throw new Error('Failed to parse YAML. Please make sure it has a valid format and try again.');
-    }
-}
-exports.getPascalFromJson = getPascalFromJson;
-function getPascalFromYaml(yaml) {
-    try {
-        const yamlContent = YAML.parse(yaml, {
-            merge: true,
-            schema: 'core'
-        });
-        let newYaml = changeCaseOfKeysToPascal(yamlContent);
-        var newContent = YAML.stringify(newYaml, {
-            merge: true,
-            schema: 'core'
-        });
-        return newContent;
-    }
-    catch (error) {
-        console.error(error);
-        throw new Error('Failed to parse JSON. Please make sure it has a valid format and try again.');
-    }
-}
-exports.getPascalFromYaml = getPascalFromYaml;
+exports.convertFromYaml = convertFromYaml;
 function changeCaseOfKeysToPascal(oIn) {
     let objectKeysToPascal = function (origObj) {
         return Object.keys(origObj).reduce(function (newObj, key) {
@@ -167,24 +129,6 @@ function changeCaseOfKeysToCamel(oIn) {
         }, {});
     };
     return objectKeysToCamel(oIn);
-}
-function camelReplace(match, group) {
-    group = group.replace('\n', '');
-    let newText = group;
-    if (group.length > 0) {
-        newText = group[0].toLowerCase() + group.slice(1);
-    }
-    match = match.replace(group, newText);
-    return match;
-}
-function pascalReplace(match, group) {
-    group = group.replace('\n', '');
-    let newText = group;
-    if (group.length > 0) {
-        newText = group[0].toUpperCase() + group.slice(1);
-    }
-    match = match.replace(group, newText);
-    return match;
 }
 
 
@@ -8439,10 +8383,10 @@ class FileConverter {
     }
     static getNewFileContent(convertToType, type, oldContent) {
         const converter = {
-            [FileType.Json]: { [ConvertToType.Camel]: helpers_1.getCamelFromJson, [ConvertToType.Pascal]: helpers_1.getPascalFromJson },
-            [FileType.Yaml]: { [ConvertToType.Camel]: helpers_1.getCamelFromYaml, [ConvertToType.Pascal]: helpers_1.getPascalFromYaml },
-        }[type][convertToType];
-        return converter(oldContent);
+            [FileType.Json]: helpers_1.convertFromJson,
+            [FileType.Yaml]: helpers_1.convertFromYaml,
+        }[type];
+        return converter(oldContent, convertToType);
     }
 }
 exports.FileConverter = FileConverter;
@@ -8493,13 +8437,7 @@ const vscode = __webpack_require__(1);
 const onRightClickAndConvertFile_1 = __webpack_require__(2);
 const { registerCommand } = vscode.commands;
 function activate(context) {
-    context.subscriptions.push(registerCommand('vscode-change-naming-convention.rightClickJsonCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel), registerCommand('vscode-change-naming-convention.rightClickJsonPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal), registerCommand('vscode-change-naming-convention.rightClickYamlPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal), registerCommand('vscode-change-naming-convention.rightClickYamlCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel));
-    let disposable = vscode.commands.registerCommand('vscode-change-naming-convention.helloWorld', () => {
-        // The code you place here will be executed every time your command is executed
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World from Change Naming Convention!');
-    });
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(registerCommand('vscode-change-naming-convention.rightClickCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel), registerCommand('vscode-change-naming-convention.rightClickPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal));
 }
 exports.activate = activate;
 
