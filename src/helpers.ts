@@ -84,8 +84,14 @@ function changeCaseOfKeysToPascal(oIn: any): any {
             // @ts-ignore
             let val = origObj[key];
             let newVal = (typeof val === 'object') ? objectKeysToPascal(val) : val;
-            // @ts-ignore
-            newObj[key[0].toUpperCase() + key.slice(1)] = newVal;
+            if(Object.prototype.toString.call(val) !== '[object Array]'){
+                // @ts-ignore
+                newObj[key[0].toUpperCase() + key.slice(1)] = newVal;
+            }
+            else{
+                // @ts-ignore
+                newObj[key[0].toUpperCase() + key.slice(1)] = Object.values(newVal);
+            }
             return newObj;
         }, {});
     };
@@ -99,8 +105,14 @@ function changeCaseOfKeysToCamel(oIn: any): any {
             // @ts-ignore
             let val = origObj[key];
             let newVal = (typeof val === 'object') ? objectKeysToCamel(val) : val;
-            // @ts-ignore
-            newObj[key[0].toLowerCase() + key.slice(1)] = newVal;
+            if(Object.prototype.toString.call(val) !== '[object Array]'){
+                // @ts-ignore
+                newObj[key[0].toLowerCase() + key.slice(1)] = newVal;
+            }
+            else{
+                // @ts-ignore
+                newObj[key[0].toLowerCase() + key.slice(1)] = Object.values(newVal);
+            }
             return newObj;
         }, {});
     };
