@@ -43,60 +43,121 @@
 				"command": "vscode-change-naming-convention.rightClickConstant",
 				"title": "Convert to CONSTANT_CASE",
 				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "vscode-change-naming-convention.cpCamel",
+				"title": "Change naming convention: To camelCase",
+				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "vscode-change-naming-convention.cpPascal",
+				"title": "Change naming convention: To PascalCase",
+				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "vscode-change-naming-convention.cpKebab",
+				"title": "Change naming convention: To kebab-case",
+				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "vscode-change-naming-convention.cpSnake",
+				"title": "Change naming convention: To snake_case",
+				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "vscode-change-naming-convention.cpConstant",
+				"title": "Change naming convention: To CONSTANT_CASE",
+				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
 			}
-    ]
-  },
-  "menus": {
-    "commandPalette": [
-      {
-        "command": "vscode-change-naming-convention.rightClickCamel",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-      {
-        "command": "vscode-change-naming-convention.rightClickPascal",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-      {
-        "command": "vscode-change-naming-convention.rightClickKebab",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-      {
-        "command": "vscode-change-naming-convention.rightClickSnake",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-      {
-        "command": "vscode-change-naming-convention.rightClickConstant",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      }
     ],
-    "explorer/context": [
-      {
-        "group": "2_changecase",
-        "command": "vscode-change-naming-convention.rightClickCamel",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-    
-      {
-        "group": "2_changecase",
-        "command": "vscode-change-naming-convention.rightClickPascal",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-      {
-        "group": "2_changecase",
-        "command": "vscode-change-naming-convention.rightClickKebab",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-      {
-        "group": "2_changecase",
-        "command": "vscode-change-naming-convention.rightClickSnake",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      },
-      {
-        "group": "2_changecase",
-        "command": "vscode-change-naming-convention.rightClickConstant",
-        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-      }
-    ]
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "vscode-change-naming-convention.rightClickCamel",
+          "when": "false"
+        },
+        {
+          "command": "vscode-change-naming-convention.rightClickPascal",
+          "when": "false"
+        },
+        {
+          "command": "vscode-change-naming-convention.rightClickKebab",
+          "when": "false"
+        },
+        {
+          "command": "vscode-change-naming-convention.rightClickSnake",
+          "when": "false"
+        },
+        {
+          "command": "vscode-change-naming-convention.rightClickConstant",
+          "when": "falsel"
+        },
+        {
+          "command": "vscode-change-naming-convention.cpCamel",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        },
+        {
+          "command": "vscode-change-naming-convention.cpPascal",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        },
+        {
+          "command": "vscode-change-naming-convention.cpKebab",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        },
+        {
+          "command": "vscode-change-naming-convention.cpSnake",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        },
+        {
+          "command": "vscode-change-naming-convention.cpConstant",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        }
+      ],
+      "explorer/context": [
+        {
+          "group": "2_changecase",
+          "submenu": "changeconvention.submenu",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        }
+      ],
+      "editor/title":[
+        { 
+          "group": "2_changecase",
+          "submenu": "changeconvention.submenu",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        }
+      ],
+      "editor/title/context":[
+        { 
+          "group": "2_changecase",
+          "submenu": "changeconvention.submenu",
+          "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+        }
+      ],
+      "changeconvention.submenu":[
+        { 
+          "command": "vscode-change-naming-convention.rightClickPascal"
+        },
+        { 
+          "command": "vscode-change-naming-convention.rightClickCamel"
+        },
+        { 
+          "command": "vscode-change-naming-convention.rightClickSnake"
+        },
+        { 
+          "command": "vscode-change-naming-convention.rightClickKebab"
+        },
+        { 
+          "command": "vscode-change-naming-convention.rightClickConstant"
+        }
+      ]
+    },
+      "submenus":[
+        {
+          "id": "changeconvention.submenu",
+          "label": "Change naming convention"
+        }
+      ]  
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
