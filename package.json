@@ -30,6 +30,16 @@
 				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
 			},
       {
+				"command": "vscode-change-naming-convention.rightClickKebab",
+				"title": "Convert to kebab-case",
+				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
+				"command": "vscode-change-naming-convention.rightClickSnake",
+				"title": "Convert to snake_case",
+				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+			},
+      {
         "command": "vscode-change-naming-convention.helloWorld",
         "title": "Hello World"
       }
@@ -44,6 +54,14 @@
       {
         "command": "vscode-change-naming-convention.rightClickPascal",
         "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
+      {
+        "command": "vscode-change-naming-convention.rightClickKebab",
+        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
+      {
+        "command": "vscode-change-naming-convention.rightClickSnake",
+        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
       }
     ],
     "explorer/context": [
@@ -56,6 +74,17 @@
       {
         "group": "2_changecase",
         "command": "vscode-change-naming-convention.rightClickPascal",
+        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
+      {
+        "group": "2_changecase",
+        "command": "vscode-change-naming-convention.rightClickKebab",
+        "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
+    
+      {
+        "group": "2_changecase",
+        "command": "vscode-change-naming-convention.rightClickSnake",
         "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
       }
     ]

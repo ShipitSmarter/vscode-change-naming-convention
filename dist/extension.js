@@ -13,11 +13,13 @@ module.exports = require("vscode");
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.onRightClickAndConvertToPascal = exports.onRightClickAndConvertToCamel = void 0;
+exports.onRightClickAndConvertToSnake = exports.onRightClickAndConvertToKebab = exports.onRightClickAndConvertToPascal = exports.onRightClickAndConvertToCamel = void 0;
 const vscode = __webpack_require__(1);
 const converter_1 = __webpack_require__(74);
 const camelCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Camel);
 const pascalCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Pascal);
+const kebabCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Kebab);
+const snakeCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Snake);
 async function onRightClickAndConvertToCamel(oldUri) {
     if (!oldUri) {
         oldUri = getActiveTextEditorUri();
@@ -32,6 +34,20 @@ async function onRightClickAndConvertToPascal(oldUri) {
     await pascalCaseFileConverter.convertFiles([oldUri]);
 }
 exports.onRightClickAndConvertToPascal = onRightClickAndConvertToPascal;
+async function onRightClickAndConvertToKebab(oldUri) {
+    if (!oldUri) {
+        oldUri = getActiveTextEditorUri();
+    }
+    await kebabCaseFileConverter.convertFiles([oldUri]);
+}
+exports.onRightClickAndConvertToKebab = onRightClickAndConvertToKebab;
+async function onRightClickAndConvertToSnake(oldUri) {
+    if (!oldUri) {
+        oldUri = getActiveTextEditorUri();
+    }
+    await snakeCaseFileConverter.convertFiles([oldUri]);
+}
+exports.onRightClickAndConvertToSnake = onRightClickAndConvertToSnake;
 function getActiveTextEditorUri() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -124,17 +140,17 @@ function toCamel(kIn) {
         return kIn[0].toLowerCase() + kIn.slice(1);
     }
     if (originalConvention === converter_1.NamingConvention.Snake) {
-        return kIn.split('_').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s).join('');
+        return kIn.split('_').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s[0].toLowerCase() + s.slice(1)).join('');
     }
     if (originalConvention === converter_1.NamingConvention.Kebab) {
-        return kIn.split('-').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s).join('');
+        return kIn.split('-').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s[0].toLowerCase() + s.slice(1)).join('');
     }
     return kIn;
 }
 function toPascal(kIn) {
     var originalConvention = detectConvention(kIn);
     if (originalConvention === converter_1.NamingConvention.Pascal || originalConvention === converter_1.NamingConvention.Camel) {
-        return kIn[0].toLowerCase() + kIn.slice(1);
+        return kIn[0].toUpperCase() + kIn.slice(1);
     }
     if (originalConvention === converter_1.NamingConvention.Snake) {
         return kIn.split('_').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
@@ -8498,7 +8514,7 @@ const vscode = __webpack_require__(1);
 const onRightClickAndConvertFile_1 = __webpack_require__(2);
 const { registerCommand } = vscode.commands;
 function activate(context) {
-    context.subscriptions.push(registerCommand('vscode-change-naming-convention.rightClickCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel), registerCommand('vscode-change-naming-convention.rightClickPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal));
+    context.subscriptions.push(registerCommand('vscode-change-naming-convention.rightClickCamel', onRightClickAndConvertFile_1.onRightClickAndConvertToCamel), registerCommand('vscode-change-naming-convention.rightClickPascal', onRightClickAndConvertFile_1.onRightClickAndConvertToPascal), registerCommand('vscode-change-naming-convention.rightClickKebab', onRightClickAndConvertFile_1.onRightClickAndConvertToKebab), registerCommand('vscode-change-naming-convention.rightClickSnake', onRightClickAndConvertFile_1.onRightClickAndConvertToSnake));
 }
 exports.activate = activate;
 

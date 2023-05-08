@@ -88,11 +88,11 @@ function toCamel(kIn: string): string{
     }
     if(originalConvention === NamingConvention.Snake)
     {
-        return kIn.split('_').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s).join('');
+        return kIn.split('_').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s[0].toLowerCase() + s.slice(1)).join('');
     }
     if(originalConvention === NamingConvention.Kebab)
     {
-        return kIn.split('-').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s).join('');
+        return kIn.split('-').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s[0].toLowerCase() + s.slice(1)).join('');
     }
     return kIn;
 }
@@ -101,7 +101,7 @@ function toPascal(kIn: string): string{
     var originalConvention = detectConvention(kIn);
     if(originalConvention === NamingConvention.Pascal || originalConvention === NamingConvention.Camel)
     {
-        return kIn[0].toLowerCase() + kIn.slice(1);
+        return kIn[0].toUpperCase() + kIn.slice(1);
     }
     if(originalConvention === NamingConvention.Snake)
     {

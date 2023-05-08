@@ -5,6 +5,8 @@ import { FileConverter, NamingConvention } from './converter';
 
 const camelCaseFileConverter = new FileConverter(NamingConvention.Camel);
 const pascalCaseFileConverter = new FileConverter(NamingConvention.Pascal);
+const kebabCaseFileConverter = new FileConverter(NamingConvention.Kebab);
+const snakeCaseFileConverter = new FileConverter(NamingConvention.Snake);
 
 export async function onRightClickAndConvertToCamel(oldUri: vscode.Uri) {
 	if (!oldUri) {
@@ -20,6 +22,22 @@ export async function onRightClickAndConvertToPascal(oldUri: vscode.Uri) {
 	}
 
 	await pascalCaseFileConverter.convertFiles([oldUri]);
+}
+
+export async function onRightClickAndConvertToKebab(oldUri: vscode.Uri) {
+	if (!oldUri) {
+		oldUri = getActiveTextEditorUri();
+	}
+
+	await kebabCaseFileConverter.convertFiles([oldUri]);
+}
+
+export async function onRightClickAndConvertToSnake(oldUri: vscode.Uri) {
+	if (!oldUri) {
+		oldUri = getActiveTextEditorUri();
+	}
+
+	await snakeCaseFileConverter.convertFiles([oldUri]);
 }
 
 function getActiveTextEditorUri() {
