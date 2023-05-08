@@ -37,6 +37,14 @@ export async function onRightClickAndConvertToSnake(oldUri: vscode.Uri) {
 	await fileConverter.convertFiles(NamingConvention.Snake, [oldUri]);
 }
 
+export async function onRightClickAndConvertToConstant(oldUri: vscode.Uri) {
+	if (!oldUri) {
+		oldUri = getActiveTextEditorUri();
+	}
+
+	await fileConverter.convertFiles(NamingConvention.Constant, [oldUri]);
+}
+
 function getActiveTextEditorUri() {
 	const editor = vscode.window.activeTextEditor;
 	if (!editor) {

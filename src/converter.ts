@@ -13,7 +13,8 @@ export enum NamingConvention {
 	Pascal = 'Pascal',
 	Camel = 'Camel',
 	Snake = 'Snake',
-	Kebab = 'Kebab'
+	Kebab = 'Kebab',
+	Constant = 'Constant'
 }
 
 export enum FileType {
