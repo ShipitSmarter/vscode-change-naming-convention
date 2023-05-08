@@ -2,13 +2,30 @@
   "name": "vscode-change-naming-convention",
   "displayName": "Change Naming Convention",
   "description": "Easily change the naming convention of property keys in YAML and JSON files",
-  "version": "0.0.1",
+  "publisher": "ShipItSmarter",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.78.0"
   },
+  "contributors": [
+		{
+			"name": "Michael Stocks",
+			"url": "https://github.com/Droxx",
+			"email": "michaelstocks1@gmail.com"
+		}
+	],
   "categories": [
     "Other"
   ],
+	"keywords": [
+		"converter",
+		"yaml naming convention",
+		"json naming convention",
+		"pascal",
+		"camel",
+    "kebab",
+    "snake"
+	],
   "activationEvents": [
     "workspaceContains:**/**.json",
 		"workspaceContains:**/**.yml",
