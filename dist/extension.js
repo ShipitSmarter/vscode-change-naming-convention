@@ -153,7 +153,7 @@ function toPascal(kIn) {
         return kIn.split('_').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
     }
     if (originalConvention === converter_1.NamingConvention.Kebab) {
-        return kIn.split('_').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
+        return kIn.split('-').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
     }
     return kIn;
 }

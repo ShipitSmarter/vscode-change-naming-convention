@@ -1,7 +1,7 @@
 {
   "name": "vscode-change-naming-convention",
   "displayName": "Change Naming Convention",
-  "description": "Easily change between PascalCase and camelCase keys in YAML and JSON files",
+  "description": "Easily change the naming convention of property keys in YAML and JSON files",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.78.0"

@@ -109,7 +109,7 @@ function toPascal(kIn: string): string{
     }
     if(originalConvention === NamingConvention.Kebab)
     {
-        return kIn.split('_').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
+        return kIn.split('-').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
     }
     return kIn;
 }
