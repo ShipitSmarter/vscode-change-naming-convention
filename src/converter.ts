@@ -5,7 +5,8 @@ import * as path from 'path';
 import { showError, convertFromJson, convertFromYaml  } from './helpers';
 
 type ConvertedFile = {
-	fileUri: vscode.Uri
+	fileUri: vscode.Uri,
+	oldFileContent: Uint8Array;
 };
 
 export enum NamingConvention {
@@ -34,26 +35,27 @@ export class FileConverter {
 		const convertFilePromises = files.map((file) => this.transformAndConvertFile(toCase, file));
 		const convertedFiles = await Promise.all(convertFilePromises);
 		const filtered = convertedFiles.filter(Boolean) as ConvertedFile[];
+
+		if (filtered.length > 0) {
+			await this.showReverterTooltip(filtered);
+		}
 	}
 
 	private transformAndConvertFile = async (toCase: NamingConvention, fileUri: vscode.Uri): Promise<ConvertedFile | null> => {
 		const oldFileContent = await vscode.workspace.fs.readFile(fileUri);
         const oldFileExtension = path.extname(fileUri.fsPath);
-        let fileType = FileType.Yaml;
 
+        let fileType = FileType.Yaml;
         if(oldFileExtension === '.json' || oldFileExtension === '.jsn') { fileType = FileType.Json; }
 
 		const fileContent = FileConverter.getNewFileContent(toCase, fileType, oldFileContent.toString());
 
-		await this.convertFile({ fileContent, fileUri });
+		await this.writeFile({ fileContent, fileUri });
 
-		return { fileUri };
+		return { fileUri, oldFileContent };
 	};
 
-	/**
-	 * @returns a boolean signaling if file was converted or not.
-	 */
-	private convertFile = async (context: ConvertFileContext): Promise<void> => {
+	private writeFile = async (context: ConvertFileContext): Promise<void> => {
 		const { fileContent, fileUri } = context;
 		const newFile = Buffer.from(fileContent);
 
@@ -77,4 +79,32 @@ export class FileConverter {
 
 		return converter(oldContent, convertToType);
 	}
+
+	private async showReverterTooltip(convertedFiles: ConvertedFile[]) {
+		const filesLength = convertedFiles.length;
+		const didConvertSingleFile = filesLength === 1;
+
+		const message = didConvertSingleFile
+			? `Revert converted file?`
+			: `Revert ${filesLength} converted files?`;
+
+		const revertSelection = await vscode.window.showInformationMessage(message, 'Revert');
+
+		if (revertSelection !== 'Revert') {
+			return;
+		}
+
+		const promises = convertedFiles.map(async (convertedFile) => this.revertTransformedAndConvertedFile(convertedFile));
+		await Promise.all(promises);
+	}
+
+	private revertTransformedAndConvertedFile = async (convertedFile: ConvertedFile) => {
+		const {
+			fileUri: fileUri,
+			oldFileContent: newFileContent,
+		} = convertedFile;
+
+		const fileContent = newFileContent.toString();
+		await this.writeFile({ fileUri, fileContent });
+	};
 }
