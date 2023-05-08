@@ -1,11 +1,10 @@
 import * as vscode from 'vscode';
 
-import { showError } from './helpers';
 import { FileConverter, NamingConvention } from './converter';
 
 const fileConverter = new FileConverter();
 
-export async function onRightClickAndConvertToCamel(oldUri: vscode.Uri) {
+export async function convertToCamel(oldUri: vscode.Uri) {
 	if (!oldUri) {
 		oldUri = getActiveTextEditorUri();
 	}
@@ -13,7 +12,7 @@ export async function onRightClickAndConvertToCamel(oldUri: vscode.Uri) {
 	await fileConverter.convertFiles(NamingConvention.Camel, [oldUri]);
 }
 
-export async function onRightClickAndConvertToPascal(oldUri: vscode.Uri) {
+export async function convertToPascal(oldUri: vscode.Uri) {
 	if (!oldUri) {
 		oldUri = getActiveTextEditorUri();
 	}
@@ -21,7 +20,7 @@ export async function onRightClickAndConvertToPascal(oldUri: vscode.Uri) {
 	await fileConverter.convertFiles(NamingConvention.Pascal, [oldUri]);
 }
 
-export async function onRightClickAndConvertToKebab(oldUri: vscode.Uri) {
+export async function convertToKebab(oldUri: vscode.Uri) {
 	if (!oldUri) {
 		oldUri = getActiveTextEditorUri();
 	}
@@ -29,7 +28,7 @@ export async function onRightClickAndConvertToKebab(oldUri: vscode.Uri) {
 	await fileConverter.convertFiles(NamingConvention.Kebab, [oldUri]);
 }
 
-export async function onRightClickAndConvertToSnake(oldUri: vscode.Uri) {
+export async function convertToSnake(oldUri: vscode.Uri) {
 	if (!oldUri) {
 		oldUri = getActiveTextEditorUri();
 	}
@@ -37,7 +36,7 @@ export async function onRightClickAndConvertToSnake(oldUri: vscode.Uri) {
 	await fileConverter.convertFiles(NamingConvention.Snake, [oldUri]);
 }
 
-export async function onRightClickAndConvertToConstant(oldUri: vscode.Uri) {
+export async function convertToConstant(oldUri: vscode.Uri) {
 	if (!oldUri) {
 		oldUri = getActiveTextEditorUri();
 	}
