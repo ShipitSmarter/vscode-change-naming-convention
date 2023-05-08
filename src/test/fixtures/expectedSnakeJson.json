@@ -8,9 +8,9 @@
 	  "3"
 	],
 	"test_object": {
-	  "version_1": "5.4.0",
-	  "version_2": "5.4.0",
-	  "version_3": "9.2.0"
+	  "version1": "5.4.0",
+	  "version2": "5.4.0",
+	  "version3": "9.2.0"
 	},
 	"test_object_with_children": {
 	  "object_child": {

@@ -6,9 +6,9 @@ test-array:
   - "2"
   - "3"
 test-object:
-  version-1: 5.4.0
-  version-2: 5.4.0
-  version-3: 9.2.0
+  version1: 5.4.0
+  version2: 5.4.0
+  version3: 9.2.0
 test-object-with-children:
   object-child:
     child-property: "8.0"

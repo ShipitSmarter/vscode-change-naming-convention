@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 
 import {convertFromJson, convertFromYaml} from "../../helpers";
-import { loadFixture, stripNewLines } from '../testHelpers';
+import { loadFixture, stripNewLines, stripWhiteSpace } from '../testHelpers';
 import { NamingConvention } from '../../converter';
 
 suite('helpers', () => {
@@ -14,7 +14,7 @@ suite('helpers', () => {
 
             const result = convertFromJson(input, NamingConvention.Camel);
 
-            assert.deepStrictEqual(stripNewLines(result), stripNewLines(expected));
+            assert.deepStrictEqual(stripWhiteSpace(result), stripWhiteSpace(expected));
         });
 
         test('should convert json to snake case', async () => {
@@ -25,7 +25,7 @@ suite('helpers', () => {
 
             const result = convertFromJson(input, NamingConvention.Snake);
 
-            assert.deepStrictEqual(stripNewLines(result), stripNewLines(expected));
+            assert.deepStrictEqual(stripWhiteSpace(result), stripWhiteSpace(expected));
         });
     });
 
