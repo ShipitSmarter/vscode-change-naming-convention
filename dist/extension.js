@@ -61,7 +61,7 @@ exports.showError = showError;
 function convertFromJson(json, toCase) {
     try {
         const jsonContent = JSON.parse(json);
-        let func = toCase === converter_1.NamingConvention.Camel ? toCamel : toPascal;
+        let func = getCaseFunction(toCase);
         let newJson = changeObjectKeys(jsonContent, func);
         var newContent = JSON.stringify(newJson, null, 4);
         return newContent;
@@ -78,7 +78,7 @@ function convertFromYaml(yaml, toCase) {
             merge: true,
             schema: 'core'
         });
-        let func = toCase === converter_1.NamingConvention.Camel ? toCamel : toPascal;
+        let func = getCaseFunction(toCase);
         let newYaml = changeObjectKeys(yamlContent, func);
         var newContent = YAML.stringify(newYaml, {
             merge: true,
@@ -92,6 +92,16 @@ function convertFromYaml(yaml, toCase) {
     }
 }
 exports.convertFromYaml = convertFromYaml;
+function getCaseFunction(toCase) {
+    const converter = {
+        [converter_1.NamingConvention.Camel]: toCamel,
+        [converter_1.NamingConvention.Pascal]: toPascal,
+        [converter_1.NamingConvention.Snake]: toSnake,
+        [converter_1.NamingConvention.Kebab]: toKebab,
+        [converter_1.NamingConvention.None]: (str) => str
+    }[toCase];
+    return converter;
+}
 function changeObjectKeys(oIn, caseChange) {
     return Object.keys(oIn).reduce(function (newObj, key) {
         // @ts-ignore
@@ -109,28 +119,73 @@ function changeObjectKeys(oIn, caseChange) {
     }, {});
 }
 function toCamel(kIn) {
-    return kIn[0].toLowerCase() + kIn.slice(1);
+    var originalConvention = detectConvention(kIn);
+    if (originalConvention === converter_1.NamingConvention.Pascal || originalConvention === converter_1.NamingConvention.Camel) {
+        return kIn[0].toLowerCase() + kIn.slice(1);
+    }
+    if (originalConvention === converter_1.NamingConvention.Snake) {
+        return kIn.split('_').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s).join('');
+    }
+    if (originalConvention === converter_1.NamingConvention.Kebab) {
+        return kIn.split('-').map((s, i) => i > 0 ? s[0].toUpperCase() + s.slice(1) : s).join('');
+    }
+    return kIn;
 }
 function toPascal(kIn) {
-    return kIn[0].toUpperCase() + kIn.slice(1);
+    var originalConvention = detectConvention(kIn);
+    if (originalConvention === converter_1.NamingConvention.Pascal || originalConvention === converter_1.NamingConvention.Camel) {
+        return kIn[0].toLowerCase() + kIn.slice(1);
+    }
+    if (originalConvention === converter_1.NamingConvention.Snake) {
+        return kIn.split('_').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
+    }
+    if (originalConvention === converter_1.NamingConvention.Kebab) {
+        return kIn.split('_').map((s, i) => s[0].toUpperCase() + s.slice(1)).join('');
+    }
+    return kIn;
 }
-function detectCase(oIn) {
-    let camelCase = true;
-    let pascalCase = true;
-    Object.keys(oIn).forEach(function (key) {
-        if (key[0] !== key[0].toLowerCase()) {
-            camelCase = false;
-        }
-        if (key[0] !== key[0].toUpperCase()) {
-            pascalCase = false;
-        }
-    });
-    if (camelCase) {
+function toKebab(kIn) {
+    var originalConvention = detectConvention(kIn);
+    if (originalConvention === converter_1.NamingConvention.Pascal || originalConvention === converter_1.NamingConvention.Camel) {
+        return kIn.split(/(?=[A-Z])/).join('-').toLowerCase();
+    }
+    if (originalConvention === converter_1.NamingConvention.Snake) {
+        return kIn.split('_').join('-');
+    }
+    if (originalConvention === converter_1.NamingConvention.Kebab) {
+        return kIn;
+    }
+    return kIn;
+}
+function toSnake(kIn) {
+    var originalConvention = detectConvention(kIn);
+    if (originalConvention === converter_1.NamingConvention.Pascal || originalConvention === converter_1.NamingConvention.Camel) {
+        return kIn.split(/(?=[A-Z])/).join('_').toLowerCase();
+    }
+    if (originalConvention === converter_1.NamingConvention.Snake) {
+        return kIn;
+    }
+    if (originalConvention === converter_1.NamingConvention.Kebab) {
+        return kIn.split('-').join('_');
+    }
+    return kIn;
+}
+function detectConvention(sIn) {
+    if (sIn.slice(1).includes('_')) {
+        return converter_1.NamingConvention.Snake;
+    }
+    if (sIn.slice(1).includes('-')) {
+        return converter_1.NamingConvention.Kebab;
+    }
+    if (sIn[0] === sIn[0].toLowerCase()) {
         return converter_1.NamingConvention.Camel;
     }
-    if (pascalCase) {
+    if (sIn[0] === sIn[0].toUpperCase()) {
         return converter_1.NamingConvention.Pascal;
     }
+    /*  if(/^\d+$/.test(sIn[0])){
+            return detectConvention(sIn.slice(1));
+        } */
     return converter_1.NamingConvention.None;
 }
 
