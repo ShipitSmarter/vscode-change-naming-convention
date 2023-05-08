@@ -1,0 +1,19 @@
+Name: Test name
+Summary: Test summary
+LongerName: Test longer name
+TestArray:
+  - "1"
+  - "2"
+  - "3"
+TestObject:
+  Version1: 5.4.0
+  Version2: 5.4.0
+  Version3: 9.2.0
+TestObjectWithChildren:
+  ObjectChild:
+    ChildProperty: "8.0"
+TestArrayOfObjects:
+  - NameTest: test
+    SummaryTest: Test contents
+  - NameTest: test
+    SummaryTest: Test contents

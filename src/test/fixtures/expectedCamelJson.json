@@ -1,0 +1,30 @@
+{
+	"name": "Test name",
+	"summary": "Test summary",
+	"longerName": "Test longer name",	
+	"testArray": [
+	  "1",
+	  "2",
+	  "3"
+	],
+	"testObject": {
+	  "version1": "5.4.0",
+	  "version2": "5.4.0",
+	  "version3": "9.2.0"
+	},
+	"testObjectWithChildren": {
+	  "objectChild": {
+		"childProperty": "8.0"
+	  }
+	},
+	"testArrayOfObjects": [
+	  {
+		"nameTest": "test",
+		"summaryTest": "Test contents"
+	  },
+      {
+		"nameTest": "test",
+		"summaryTest": "Test contents"
+	  }
+	]
+  }
