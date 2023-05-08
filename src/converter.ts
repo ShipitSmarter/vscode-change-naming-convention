@@ -27,25 +27,22 @@ type ConvertFileContext = {
 };
 
 export class FileConverter {
-	private convertToType: NamingConvention;
-	constructor(convertToType: NamingConvention) {
-		this.convertToType = convertToType;
-	}
+	constructor() {	}
 
-	public async convertFiles(files: vscode.Uri[]): Promise<void> {
-		const convertFilePromises = files.map((file) => this.transformAndConvertFile(file));
+	public async convertFiles(toCase: NamingConvention, files: vscode.Uri[]): Promise<void> {
+		const convertFilePromises = files.map((file) => this.transformAndConvertFile(toCase, file));
 		const convertedFiles = await Promise.all(convertFilePromises);
 		const filtered = convertedFiles.filter(Boolean) as ConvertedFile[];
 	}
 
-	private transformAndConvertFile = async (fileUri: vscode.Uri): Promise<ConvertedFile | null> => {
+	private transformAndConvertFile = async (toCase: NamingConvention, fileUri: vscode.Uri): Promise<ConvertedFile | null> => {
 		const oldFileContent = await vscode.workspace.fs.readFile(fileUri);
         const oldFileExtension = path.extname(fileUri.fsPath);
         let fileType = FileType.Yaml;
 
         if(oldFileExtension === '.json' || oldFileExtension === '.jsn') { fileType = FileType.Json; }
 
-		const fileContent = FileConverter.getNewFileContent(this.convertToType, fileType, oldFileContent.toString());
+		const fileContent = FileConverter.getNewFileContent(toCase, fileType, oldFileContent.toString());
 
 		await this.convertFile({ fileContent, fileUri });
 

@@ -16,36 +16,33 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.onRightClickAndConvertToSnake = exports.onRightClickAndConvertToKebab = exports.onRightClickAndConvertToPascal = exports.onRightClickAndConvertToCamel = void 0;
 const vscode = __webpack_require__(1);
 const converter_1 = __webpack_require__(74);
-const camelCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Camel);
-const pascalCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Pascal);
-const kebabCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Kebab);
-const snakeCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Snake);
+const fileConverter = new converter_1.FileConverter();
 async function onRightClickAndConvertToCamel(oldUri) {
     if (!oldUri) {
         oldUri = getActiveTextEditorUri();
     }
-    await camelCaseFileConverter.convertFiles([oldUri]);
+    await fileConverter.convertFiles(converter_1.NamingConvention.Camel, [oldUri]);
 }
 exports.onRightClickAndConvertToCamel = onRightClickAndConvertToCamel;
 async function onRightClickAndConvertToPascal(oldUri) {
     if (!oldUri) {
         oldUri = getActiveTextEditorUri();
     }
-    await pascalCaseFileConverter.convertFiles([oldUri]);
+    await fileConverter.convertFiles(converter_1.NamingConvention.Pascal, [oldUri]);
 }
 exports.onRightClickAndConvertToPascal = onRightClickAndConvertToPascal;
 async function onRightClickAndConvertToKebab(oldUri) {
     if (!oldUri) {
         oldUri = getActiveTextEditorUri();
     }
-    await kebabCaseFileConverter.convertFiles([oldUri]);
+    await fileConverter.convertFiles(converter_1.NamingConvention.Kebab, [oldUri]);
 }
 exports.onRightClickAndConvertToKebab = onRightClickAndConvertToKebab;
 async function onRightClickAndConvertToSnake(oldUri) {
     if (!oldUri) {
         oldUri = getActiveTextEditorUri();
     }
-    await snakeCaseFileConverter.convertFiles([oldUri]);
+    await fileConverter.convertFiles(converter_1.NamingConvention.Snake, [oldUri]);
 }
 exports.onRightClickAndConvertToSnake = onRightClickAndConvertToSnake;
 function getActiveTextEditorUri() {
@@ -8421,15 +8418,15 @@ var FileType;
     FileType["Yaml"] = "yaml";
 })(FileType = exports.FileType || (exports.FileType = {}));
 class FileConverter {
-    constructor(convertToType) {
-        this.transformAndConvertFile = async (fileUri) => {
+    constructor() {
+        this.transformAndConvertFile = async (toCase, fileUri) => {
             const oldFileContent = await vscode.workspace.fs.readFile(fileUri);
             const oldFileExtension = path.extname(fileUri.fsPath);
             let fileType = FileType.Yaml;
             if (oldFileExtension === '.json' || oldFileExtension === '.jsn') {
                 fileType = FileType.Json;
             }
-            const fileContent = FileConverter.getNewFileContent(this.convertToType, fileType, oldFileContent.toString());
+            const fileContent = FileConverter.getNewFileContent(toCase, fileType, oldFileContent.toString());
             await this.convertFile({ fileContent, fileUri });
             return { fileUri };
         };
@@ -8451,10 +8448,9 @@ class FileConverter {
                 (0, helpers_1.showError)(error);
             }
         };
-        this.convertToType = convertToType;
     }
-    async convertFiles(files) {
-        const convertFilePromises = files.map((file) => this.transformAndConvertFile(file));
+    async convertFiles(toCase, files) {
+        const convertFilePromises = files.map((file) => this.transformAndConvertFile(toCase, file));
         const convertedFiles = await Promise.all(convertFilePromises);
         const filtered = convertedFiles.filter(Boolean);
     }

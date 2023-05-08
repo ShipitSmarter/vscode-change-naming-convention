@@ -3,17 +3,14 @@ import * as vscode from 'vscode';
 import { showError } from './helpers';
 import { FileConverter, NamingConvention } from './converter';
 
-const camelCaseFileConverter = new FileConverter(NamingConvention.Camel);
-const pascalCaseFileConverter = new FileConverter(NamingConvention.Pascal);
-const kebabCaseFileConverter = new FileConverter(NamingConvention.Kebab);
-const snakeCaseFileConverter = new FileConverter(NamingConvention.Snake);
+const fileConverter = new FileConverter();
 
 export async function onRightClickAndConvertToCamel(oldUri: vscode.Uri) {
 	if (!oldUri) {
 		oldUri = getActiveTextEditorUri();
 	}
 
-	await camelCaseFileConverter.convertFiles([oldUri]);
+	await fileConverter.convertFiles(NamingConvention.Camel, [oldUri]);
 }
 
 export async function onRightClickAndConvertToPascal(oldUri: vscode.Uri) {
@@ -21,7 +18,7 @@ export async function onRightClickAndConvertToPascal(oldUri: vscode.Uri) {
 		oldUri = getActiveTextEditorUri();
 	}
 
-	await pascalCaseFileConverter.convertFiles([oldUri]);
+	await fileConverter.convertFiles(NamingConvention.Pascal, [oldUri]);
 }
 
 export async function onRightClickAndConvertToKebab(oldUri: vscode.Uri) {
@@ -29,7 +26,7 @@ export async function onRightClickAndConvertToKebab(oldUri: vscode.Uri) {
 		oldUri = getActiveTextEditorUri();
 	}
 
-	await kebabCaseFileConverter.convertFiles([oldUri]);
+	await fileConverter.convertFiles(NamingConvention.Kebab, [oldUri]);
 }
 
 export async function onRightClickAndConvertToSnake(oldUri: vscode.Uri) {
@@ -37,7 +34,7 @@ export async function onRightClickAndConvertToSnake(oldUri: vscode.Uri) {
 		oldUri = getActiveTextEditorUri();
 	}
 
-	await snakeCaseFileConverter.convertFiles([oldUri]);
+	await fileConverter.convertFiles(NamingConvention.Snake, [oldUri]);
 }
 
 function getActiveTextEditorUri() {
