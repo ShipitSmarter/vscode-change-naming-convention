@@ -16,8 +16,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.onRightClickAndConvertToPascal = exports.onRightClickAndConvertToCamel = void 0;
 const vscode = __webpack_require__(1);
 const converter_1 = __webpack_require__(74);
-const camelCaseFileConverter = new converter_1.FileConverter(converter_1.ConvertToType.Camel);
-const pascalCaseFileConverter = new converter_1.FileConverter(converter_1.ConvertToType.Pascal);
+const camelCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Camel);
+const pascalCaseFileConverter = new converter_1.FileConverter(converter_1.NamingConvention.Pascal);
 async function onRightClickAndConvertToCamel(oldUri) {
     if (!oldUri) {
         oldUri = getActiveTextEditorUri();
@@ -61,8 +61,8 @@ exports.showError = showError;
 function convertFromJson(json, toCase) {
     try {
         const jsonContent = JSON.parse(json);
-        let func = toCase === converter_1.ConvertToType.Camel ? changeCaseOfKeysToCamel : changeCaseOfKeysToPascal;
-        let newJson = func(jsonContent);
+        let func = toCase === converter_1.NamingConvention.Camel ? toCamel : toPascal;
+        let newJson = changeObjectKeys(jsonContent, func);
         var newContent = JSON.stringify(newJson, null, 4);
         return newContent;
     }
@@ -78,8 +78,8 @@ function convertFromYaml(yaml, toCase) {
             merge: true,
             schema: 'core'
         });
-        let func = toCase === converter_1.ConvertToType.Camel ? changeCaseOfKeysToCamel : changeCaseOfKeysToPascal;
-        let newYaml = func(yamlContent);
+        let func = toCase === converter_1.NamingConvention.Camel ? toCamel : toPascal;
+        let newYaml = changeObjectKeys(yamlContent, func);
         var newContent = YAML.stringify(newYaml, {
             merge: true,
             schema: 'core'
@@ -92,43 +92,46 @@ function convertFromYaml(yaml, toCase) {
     }
 }
 exports.convertFromYaml = convertFromYaml;
-function changeCaseOfKeysToPascal(oIn) {
-    let objectKeysToPascal = function (origObj) {
-        return Object.keys(origObj).reduce(function (newObj, key) {
+function changeObjectKeys(oIn, caseChange) {
+    return Object.keys(oIn).reduce(function (newObj, key) {
+        // @ts-ignore
+        let val = oIn[key];
+        let newVal = (typeof val === 'object') ? changeObjectKeys(val, caseChange) : val;
+        if (Object.prototype.toString.call(val) !== '[object Array]') {
             // @ts-ignore
-            let val = origObj[key];
-            let newVal = (typeof val === 'object') ? objectKeysToPascal(val) : val;
-            if (Object.prototype.toString.call(val) !== '[object Array]') {
-                // @ts-ignore
-                newObj[key[0].toUpperCase() + key.slice(1)] = newVal;
-            }
-            else {
-                // @ts-ignore
-                newObj[key[0].toUpperCase() + key.slice(1)] = Object.values(newVal);
-            }
-            return newObj;
-        }, {});
-    };
-    return objectKeysToPascal(oIn);
+            newObj[caseChange(key)] = newVal;
+        }
+        else {
+            // @ts-ignore
+            newObj[caseChange(key)] = Object.values(newVal);
+        }
+        return newObj;
+    }, {});
 }
-function changeCaseOfKeysToCamel(oIn) {
-    let objectKeysToCamel = function (origObj) {
-        return Object.keys(origObj).reduce(function (newObj, key) {
-            // @ts-ignore
-            let val = origObj[key];
-            let newVal = (typeof val === 'object') ? objectKeysToCamel(val) : val;
-            if (Object.prototype.toString.call(val) !== '[object Array]') {
-                // @ts-ignore
-                newObj[key[0].toLowerCase() + key.slice(1)] = newVal;
-            }
-            else {
-                // @ts-ignore
-                newObj[key[0].toLowerCase() + key.slice(1)] = Object.values(newVal);
-            }
-            return newObj;
-        }, {});
-    };
-    return objectKeysToCamel(oIn);
+function toCamel(kIn) {
+    return kIn[0].toLowerCase() + kIn.slice(1);
+}
+function toPascal(kIn) {
+    return kIn[0].toUpperCase() + kIn.slice(1);
+}
+function detectCase(oIn) {
+    let camelCase = true;
+    let pascalCase = true;
+    Object.keys(oIn).forEach(function (key) {
+        if (key[0] !== key[0].toLowerCase()) {
+            camelCase = false;
+        }
+        if (key[0] !== key[0].toUpperCase()) {
+            pascalCase = false;
+        }
+    });
+    if (camelCase) {
+        return converter_1.NamingConvention.Camel;
+    }
+    if (pascalCase) {
+        return converter_1.NamingConvention.Pascal;
+    }
+    return converter_1.NamingConvention.None;
 }
 
 
@@ -8328,16 +8331,19 @@ exports.stringify = stringify;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.FileConverter = exports.FileType = exports.ConvertToType = void 0;
+exports.FileConverter = exports.FileType = exports.NamingConvention = void 0;
 /* eslint-disable @typescript-eslint/naming-convention */
 const vscode = __webpack_require__(1);
 const path = __webpack_require__(75);
 const helpers_1 = __webpack_require__(3);
-var ConvertToType;
-(function (ConvertToType) {
-    ConvertToType["Pascal"] = "Pascal";
-    ConvertToType["Camel"] = "Camel";
-})(ConvertToType = exports.ConvertToType || (exports.ConvertToType = {}));
+var NamingConvention;
+(function (NamingConvention) {
+    NamingConvention["None"] = "None";
+    NamingConvention["Pascal"] = "Pascal";
+    NamingConvention["Camel"] = "Camel";
+    NamingConvention["Snake"] = "Snake";
+    NamingConvention["Kebab"] = "Kebab";
+})(NamingConvention = exports.NamingConvention || (exports.NamingConvention = {}));
 var FileType;
 (function (FileType) {
     FileType["Json"] = "json";

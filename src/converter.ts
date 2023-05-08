@@ -8,9 +8,12 @@ type ConvertedFile = {
 	fileUri: vscode.Uri
 };
 
-export enum ConvertToType {
+export enum NamingConvention {
+	None = 'None',	
 	Pascal = 'Pascal',
-	Camel = 'Camel'
+	Camel = 'Camel',
+	Snake = 'Snake',
+	Kebab = 'Kebab'
 }
 
 export enum FileType {
@@ -24,8 +27,8 @@ type ConvertFileContext = {
 };
 
 export class FileConverter {
-	private convertToType: ConvertToType;
-	constructor(convertToType: ConvertToType) {
+	private convertToType: NamingConvention;
+	constructor(convertToType: NamingConvention) {
 		this.convertToType = convertToType;
 	}
 
@@ -68,7 +71,7 @@ export class FileConverter {
 		}
 	};
 
-	private static getNewFileContent(convertToType: ConvertToType, type: FileType, oldContent: string) {
+	private static getNewFileContent(convertToType: NamingConvention, type: FileType, oldContent: string) {
 		const converter = {
 			[FileType.Json]: convertFromJson,
 			[FileType.Yaml]: convertFromYaml,

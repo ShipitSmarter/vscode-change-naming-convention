@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 
 import { showError } from './helpers';
-import { FileConverter, ConvertToType } from './converter';
+import { FileConverter, NamingConvention } from './converter';
 
-const camelCaseFileConverter = new FileConverter(ConvertToType.Camel);
-const pascalCaseFileConverter = new FileConverter(ConvertToType.Pascal);
+const camelCaseFileConverter = new FileConverter(NamingConvention.Camel);
+const pascalCaseFileConverter = new FileConverter(NamingConvention.Pascal);
 
 export async function onRightClickAndConvertToCamel(oldUri: vscode.Uri) {
 	if (!oldUri) {
