@@ -8,84 +8,84 @@
     "vscode": "^1.78.0"
   },
   "contributors": [
-		{
-			"name": "Michael Stocks",
-			"url": "https://github.com/Droxx",
-			"email": "michaelstocks1@gmail.com"
-		}
-	],
+    {
+      "name": "Michael Stocks",
+      "url": "https://github.com/Droxx",
+      "email": "michaelstocks1@gmail.com"
+    }
+  ],
   "categories": [
     "Other"
   ],
-	"keywords": [
-		"converter",
-		"yaml naming convention",
-		"json naming convention",
-		"pascal",
-		"camel",
+  "keywords": [
+    "converter",
+    "yaml naming convention",
+    "json naming convention",
+    "pascal",
+    "camel",
     "kebab",
     "snake"
-	],
+  ],
   "activationEvents": [
     "workspaceContains:**/**.json",
-		"workspaceContains:**/**.yml",
-		"workspaceContains:**/**.yaml",
+    "workspaceContains:**/**.yml",
+    "workspaceContains:**/**.yaml",
     "onLanguage:json",
-		"onLanguage:yaml"
+    "onLanguage:yaml"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-				"command": "vscode-change-naming-convention.rightClickCamel",
-				"title": "Convert to camelCase",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.rightClickCamel",
+        "title": "Convert to camelCase",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.rightClickPascal",
-				"title": "Convert to PascalCase",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.rightClickPascal",
+        "title": "Convert to PascalCase",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.rightClickKebab",
-				"title": "Convert to kebab-case",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.rightClickKebab",
+        "title": "Convert to kebab-case",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.rightClickSnake",
-				"title": "Convert to snake_case",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.rightClickSnake",
+        "title": "Convert to snake_case",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.rightClickConstant",
-				"title": "Convert to CONSTANT_CASE",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.rightClickConstant",
+        "title": "Convert to CONSTANT_CASE",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.cpCamel",
-				"title": "Change naming convention: To camelCase",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.cpCamel",
+        "title": "Change naming convention: To camelCase",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.cpPascal",
-				"title": "Change naming convention: To PascalCase",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.cpPascal",
+        "title": "Change naming convention: To PascalCase",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.cpKebab",
-				"title": "Change naming convention: To kebab-case",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.cpKebab",
+        "title": "Change naming convention: To kebab-case",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.cpSnake",
-				"title": "Change naming convention: To snake_case",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			},
+        "command": "vscode-change-naming-convention.cpSnake",
+        "title": "Change naming convention: To snake_case",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      },
       {
-				"command": "vscode-change-naming-convention.cpConstant",
-				"title": "Change naming convention: To CONSTANT_CASE",
-				"enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
-			}
+        "command": "vscode-change-naming-convention.cpConstant",
+        "title": "Change naming convention: To CONSTANT_CASE",
+        "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
+      }
     ],
     "menus": {
       "commandPalette": [
@@ -137,44 +137,44 @@
           "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
         }
       ],
-      "editor/title":[
-        { 
+      "editor/title": [
+        {
           "group": "2_changecase",
           "submenu": "changeconvention.submenu",
           "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
         }
       ],
-      "editor/title/context":[
-        { 
+      "editor/title/context": [
+        {
           "group": "2_changecase",
           "submenu": "changeconvention.submenu",
           "when": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
         }
       ],
-      "changeconvention.submenu":[
-        { 
+      "changeconvention.submenu": [
+        {
           "command": "vscode-change-naming-convention.rightClickPascal"
         },
-        { 
+        {
           "command": "vscode-change-naming-convention.rightClickCamel"
         },
-        { 
+        {
           "command": "vscode-change-naming-convention.rightClickSnake"
         },
-        { 
+        {
           "command": "vscode-change-naming-convention.rightClickKebab"
         },
-        { 
+        {
           "command": "vscode-change-naming-convention.rightClickConstant"
         }
       ]
     },
-      "submenus":[
-        {
-          "id": "changeconvention.submenu",
-          "label": "Change naming convention"
-        }
-      ]  
+    "submenus": [
+      {
+        "id": "changeconvention.submenu",
+        "label": "Change naming convention"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -185,26 +185,28 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "deploy": "vsce publish"
   },
   "devDependencies": {
-    "@types/vscode": "^1.78.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.78.0",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
+    "@vscode/test-electron": "^2.3.0",
     "eslint": "^8.39.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.0.4",
     "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "vsce": "^2.15.0",
     "webpack": "^5.81.0",
-    "webpack-cli": "^5.0.2",
-    "@vscode/test-electron": "^2.3.0"
+    "webpack-cli": "^5.0.2"
   },
   "dependencies": {
-		"yaml": "2.2.1",
-    "change-case" : "4.1.2"
-	}
+    "change-case": "4.1.2",
+    "yaml": "2.2.1"
+  }
 }
