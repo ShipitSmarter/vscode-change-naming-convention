@@ -1,13 +1,13 @@
 {
   "name": "vscode-change-naming-convention",
-  "displayName": "Change Naming Convention",
+  "displayName": "Change Naming Convention for YAML/JSON files",
   "description": "Easily change the naming convention of property keys in YAML and JSON files",
   "publisher": "ShipitSmarter",
   "author": {
     "name": "ShipitSmarter",
     "url": "https://github.com/ShipitSmarter"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.78.0"
   },
@@ -200,12 +200,12 @@
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
     "@vscode/test-electron": "^2.3.0",
+    "@vscode/vsce": "^2.19.0",
     "eslint": "^8.39.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
-    "vsce": "^2.15.0",
     "webpack": "^5.81.0",
     "webpack-cli": "^5.0.2"
   },
