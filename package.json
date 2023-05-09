@@ -7,7 +7,7 @@
     "name": "ShipitSmarter",
     "url": "https://github.com/ShipitSmarter"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.78.0"
   },
@@ -67,27 +67,27 @@
       },
       {
         "command": "vscode-change-naming-convention.cpCamel",
-        "title": "Change naming convention: To camelCase",
+        "title": "Change Naming Convention: To camelCase",
         "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
       },
       {
         "command": "vscode-change-naming-convention.cpPascal",
-        "title": "Change naming convention: To PascalCase",
+        "title": "Change Naming Convention: To PascalCase",
         "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
       },
       {
         "command": "vscode-change-naming-convention.cpKebab",
-        "title": "Change naming convention: To kebab-case",
+        "title": "Change Naming Convention: To kebab-case",
         "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
       },
       {
         "command": "vscode-change-naming-convention.cpSnake",
-        "title": "Change naming convention: To snake_case",
+        "title": "Change Naming Convention: To snake_case",
         "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
       },
       {
         "command": "vscode-change-naming-convention.cpConstant",
-        "title": "Change naming convention: To CONSTANT_CASE",
+        "title": "Change Naming Convention: To CONSTANT_CASE",
         "enablement": "resourceExtname == .json || resourceExtname == .yml || resourceExtname == .yaml"
       }
     ],
@@ -176,7 +176,7 @@
     "submenus": [
       {
         "id": "changeconvention.submenu",
-        "label": "Change naming convention"
+        "label": "Change Naming Convention"
       }
     ]
   },
