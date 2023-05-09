@@ -20,6 +20,6 @@ These commands will iterate over every object in the JSON or YAML file and modif
 
 ## Release Notes
 
-### 1.0.0
+### 0.0.2
 
 Initial release, supporting PascalCase, camelCase, snake_case, kebab-case, CONSTANT_CASE
