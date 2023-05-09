@@ -2,7 +2,7 @@
   "name": "vscode-change-naming-convention",
   "displayName": "Change Naming Convention",
   "description": "Easily change the naming convention of property keys in YAML and JSON files",
-  "publisher": "ShipItSmarter",
+  "publisher": "ShipitSmarter",
   "author": {
     "name": "ShipitSmarter",
     "url": "https://github.com/ShipitSmarter"
