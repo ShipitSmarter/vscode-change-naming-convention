@@ -3,7 +3,7 @@
   "displayName": "Change Naming Convention",
   "description": "Easily change the naming convention of property keys in YAML and JSON files",
   "publisher": "ShipItSmarter",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.78.0"
   },
