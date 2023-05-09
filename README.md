@@ -1,5 +1,9 @@
 # Change YAML/JSON naming convention
 
+![ChangeNamingConventionTitle](https://github.com/ShipitSmarter/vscode-change-naming-convention/assets/7061710/6a656fcb-e3b8-4545-8f1c-fcf25ea9cbf7)
+![ChangeNamingConventionExplorer](https://github.com/ShipitSmarter/vscode-change-naming-convention/assets/7061710/b626827f-ac22-4bb0-84ed-e978f4adae50)
+
+
 This extension enables the quick modification of the naming convention of property keys in YAML or JSON files.
 
 ## Features
