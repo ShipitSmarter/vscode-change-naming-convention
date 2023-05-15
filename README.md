@@ -31,16 +31,16 @@ There is one configuration option. This can be defined in `change-naming-convent
 }
 ```
 
-| id             | description                                                                                                                                                                 | type     | default   | example              |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-----------|----------------------|
-| `ignoreRegex`  | Provide regular expressions for property names that should be ignored during case changing, note: start and end of string notation ^{REGEX}$, will be added automatically   | string[] | `[]`      | `[A-Z_]*", ".*[0-9]` |
+| id             | description                                                                                                                                                                   | type     | default   | example                  |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|-----------|--------------------------|
+| `ignoreRegex`  | Provide regular expressions for property names that should be ignored during case changing, note: start and end of string notation `^{REGEX}$`, will be added automatically   | string[] | `[]`      | `["[A-Z_]*", ".*[0-9]"]` |
 
 
 ---
 
 ## Release Notes
 
-### 0.0.5
+### 0.0.6
 
 * Cleaned up the context menu formatting
 * Added configuration option to provide regular expressions for ignoring certain keys.
