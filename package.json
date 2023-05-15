@@ -178,8 +178,34 @@
         "id": "changeconvention.submenu",
         "label": "Change Naming Convention"
       }
-    ]
+    ],
+    "configuration": 
+      {
+        "title": "Change Naming Convention",
+        "properties": {
+          "change-naming-convention":{
+            "type": "object",
+						"default": {
+							"ignoreRegex": []
+						},
+            "properties":{
+              "ignoreRegex": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "title": "inner objects"
+                },
+                "default": [],
+                "description": "An array of regexes to ignore when changing naming convention"
+              }
+            }
+          } 
+          
+        }
+      } 
+    
   },
+
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
