@@ -1,6 +1,6 @@
 # Change Log
 
-### 0.0.5
+### 0.0.6
 * Cleaned up the context menu formatting
 * Added configuration option to provide regular expressions for ignoring certain keys.
 
