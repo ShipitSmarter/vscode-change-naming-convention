@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.0.1
+* Updated packages
+
 ## 1.0.0
 * Main release
 * Updated packages
